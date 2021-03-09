@@ -1,0 +1,4 @@
+@main = http://localhost:4444
+
+###
+GET {{main}}
