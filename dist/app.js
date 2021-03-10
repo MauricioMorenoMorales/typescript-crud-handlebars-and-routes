@@ -11,6 +11,7 @@ const chalk_1 = __importDefault(require("chalk"));
 const express_handlebars_1 = __importDefault(require("express-handlebars"));
 const path_1 = __importDefault(require("path"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
+const tasks_routes_1 = __importDefault(require("./routes/tasks.routes"));
 class Application {
     constructor() {
         this.app = express_1.default();
@@ -31,9 +32,12 @@ class Application {
     }
     middlewares() {
         this.app.use(morgan_1.default('dev'));
+        this.app.use(express_1.default.json());
+        this.app.use(express_1.default.urlencoded({ extended: false }));
     }
     routes() {
         this.app.use(index_routes_1.default);
+        this.app.use('/tasks', tasks_routes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

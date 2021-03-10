@@ -6,6 +6,7 @@ import chalk from 'chalk'
 import exphbs from 'express-handlebars'
 import path from 'path'
 import indexRoutes from './routes/index.routes'
+import tasksRoutes from './routes/tasks.routes'
 
 class Application {
 	app: express.Application
@@ -31,9 +32,12 @@ class Application {
 	}
 	middlewares() {
 		this.app.use(morgan('dev'))
+		this.app.use(express.json())
+		this.app.use(express.urlencoded({ extended: false }))
 	}
 	routes() {
 		this.app.use(indexRoutes)
+		this.app.use('/tasks', tasksRoutes)
 	}
 	start() {
 		this.app.listen(this.app.get('port'), () => {
