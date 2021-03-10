@@ -6,6 +6,8 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "concurrently \"tsc --watch\" \"nodemon ./dist/index.js\"",
+		"hbscopy": "ncp ./src/views ./dist/views",
+		"build": "npm run clean && tsc && npm run hbscopy",
 		"clean": "rimraf ./dist"
 	},
 	"keywords": [],
@@ -19,6 +21,7 @@
 		"express-handlebars": "^5.2.1",
 		"mongoose": "^5.11.19",
 		"morgan": "^1.10.0",
+		"ncp": "^2.0.0",
 		"rimraf": "^3.0.2"
 	},
 	"devDependencies": {

@@ -25,11 +25,29 @@ router
     const { title, description } = req.body;
     const newTask = new tasks_model_1.default({ title, description });
     yield newTask.save();
-    res.send('saved');
+    res.redirect('/tasks/list');
 }));
 router.route('/list').get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tasks = yield tasks_model_1.default.find();
-    console.log(tasks);
-    res.render('tasks/list');
+    const tasks = yield tasks_model_1.default.find().lean();
+    res.render('tasks/list', { tasks: tasks });
+}));
+router.route('/delete/:id').get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    yield tasks_model_1.default.findByIdAndDelete(id);
+    res.redirect('/tasks/list');
+}));
+router
+    .route('/edit/:id')
+    .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const task = yield tasks_model_1.default.findById(id).lean();
+    res.render('./tasks/edit', { task });
+}))
+    .post((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    yield tasks_model_1.default.findByIdAndUpdate(id, { title, description });
+    res.redirect('/tasks/list');
 }));
 exports.default = router;
+// console.log('restarting transpiler')
